@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 96%;
+    --foreground: 222.2 84% 4.9%;
+    --nav-bg: #ff8080;
+    --nav-accent: #ff8080;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+  }
+}
+
+@layer components {
+  .sidebar-item {
+    @apply flex flex-col items-center justify-center py-3 cursor-pointer w-full relative transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar-item:hover .sidebar-icon {
+    @apply text-[#ff8080] scale-110;
+  }
+
+  .sidebar-icon-wrapper {
+    @apply p-2 rounded-md transition-all duration-300 ease-in-out;
+  }
+
+  .sidebar-icon-wrapper.active {
+    @apply bg-[#ff8080] scale-105 backdrop-blur-sm;
+  }
+
+  .sidebar-icon {
+    @apply h-6 w-6 transition-all duration-300 ease-in-out text-[#ff8080];
+  }
+
+  .sidebar-icon.active {
+    @apply text-white;
+  }
+
+  .sidebar-text {
+    @apply mt-1 text-[10px] font-medium text-center transition-colors duration-300 text-gray-900;
+  }
+
+  .sidebar-text.active {
+    @apply text-gray-900 font-semibold;
+  }
+}
