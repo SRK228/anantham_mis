@@ -1,8 +1,50 @@
-# Anantham Textiles MIS
+# Anantham Portal
 
-A comprehensive Management Information System (MIS) and Performance Management System (PMS) for Anantham Textiles.
+A comprehensive management portal for Anantham Textiles with Project Management System (PMS) and Management Information System (MIS) modules.
 
-## Installation
+## Project Structure
+
+```
+project/
+├── src/                    # Frontend source code
+│   ├── PMSAPP/            # Project Management System module
+│   ├── MISAPP/            # Management Information System module
+│   ├── common/            # Shared components and utilities
+│   └── client/            # Client-specific components
+├── server/                # Backend source code
+│   ├── src/              
+│   │   ├── controllers/  # API controllers
+│   │   ├── routes/      # API routes
+│   │   ├── middleware/  # Express middleware
+│   │   └── utils/       # Utility functions
+│   └── prisma/          # Database schema and migrations
+```
+
+## Tech Stack
+
+### Frontend
+- React with TypeScript
+- Redux Toolkit for state management
+- React Router for navigation
+- TailwindCSS for styling
+- Shadcn UI components
+- Framer Motion for animations
+
+### Backend
+- Node.js with Express
+- TypeScript
+- Prisma ORM
+- PostgreSQL database
+- JWT authentication
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- PostgreSQL
+- npm or yarn
+
+### Installation
 
 1. Clone the repository:
 ```bash
@@ -12,87 +54,64 @@ cd project
 
 2. Install dependencies:
 ```bash
+# Install frontend dependencies
+npm install
+
+# Install backend dependencies
+cd server
 npm install
 ```
 
-### Required Packages
-
-The project uses the following key packages:
-
-#### Core Dependencies
+3. Set up environment variables:
 ```bash
-# React and Core Dependencies
-npm install react@18.3.1 react-dom@18.3.1 react-router-dom@6.22.3
-
-# State Management
-npm install @reduxjs/toolkit react-redux zustand
-
-# UI Components and Styling
-npm install @mui/material @mui/icons-material @emotion/react @emotion/styled
-npm install @radix-ui/react-checkbox @radix-ui/react-dropdown-menu @radix-ui/react-label
-npm install @radix-ui/react-navigation-menu @radix-ui/react-select @radix-ui/react-slider
-npm install @radix-ui/react-slot @radix-ui/react-switch @radix-ui/react-tooltip
-npm install class-variance-authority clsx tailwind-merge
-npm install framer-motion lucide-react next-themes sonner
-
-# Data Management
-npm install @tanstack/react-table
+# In server directory
+cp .env.example .env
+# Update .env with your database credentials and JWT secret
 ```
 
-#### Development Dependencies
+4. Set up the database:
 ```bash
-# TypeScript and Build Tools
-npm install -D typescript @types/react @types/react-dom
-npm install -D @vitejs/plugin-react vite
-
-# Styling and UI Development
-npm install -D tailwindcss postcss autoprefixer
-npm install -D tailwind-scrollbar tailwindcss-animate
-
-# Linting and Code Quality
-npm install -D eslint @eslint/js eslint-plugin-react-hooks eslint-plugin-react-refresh
+cd server
+npx prisma generate
+npx prisma migrate deploy
 ```
 
-## Development
-
-1. Start the development server:
+5. Start the development servers:
 ```bash
+# Start backend server (from server directory)
+npm run dev
+
+# Start frontend development server (from project root)
 npm run dev
 ```
 
-2. Build for production:
-```bash
-npm run build
-```
+## Available Scripts
 
-3. Preview production build:
-```bash
-npm run preview
-```
+### Frontend
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
 
-## Project Structure
+### Backend
+- `npm run dev` - Start development server
+- `npm run build` - Build TypeScript
+- `npm start` - Start production server
+- `npm run prisma:generate` - Generate Prisma client
+- `npm run prisma:migrate` - Run database migrations
 
-```
-src/
-├── MISAPP/           # Management Information System
-├── PMSAPP/           # Performance Management System
-├── common/           # Shared components and utilities
-├── pages/           # Main application pages
-├── store/           # Redux store configuration
-└── lib/             # Utility functions
-```
+## Authentication
 
-## Features
+The application uses JWT-based authentication. Default admin credentials:
+- Email: admin@example.com
+- Password: Admin123!
 
-- **MIS (Management Information System)**
-  - Business analytics
-  - Management tools
-  - Comprehensive reporting
+## API Documentation
 
-- **PMS (Performance Management System)**
-  - Employee performance tracking
-  - Goal setting and monitoring
-  - Training management
+API documentation is available in the `server/API_TESTING.md` file, which includes:
+- Authentication endpoints
+- Task Management API
+- Project Management API
+- Team Management API
 
 ## Contributing
 
@@ -103,4 +122,8 @@ src/
 
 ## License
 
-[License Type] - See LICENSE file for details
+This project is proprietary and confidential.
+
+## Contact
+
+For any queries, please contact [contact information]

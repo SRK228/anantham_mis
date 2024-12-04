@@ -1,0 +1,45 @@
+### Variables
+@baseUrl = http://localhost:5000/api
+@authToken = YOUR_AUTH_TOKEN_HERE
+
+### Create a new task
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "title": "Implement User Dashboard",
+    "description": "Create a responsive dashboard with user statistics",
+    "startDate": "2024-01-20",
+    "dueDate": "2024-01-25",
+    "priority": "HIGH",
+    "projectId": "YOUR_PROJECT_ID",
+    "assignedToId": "YOUR_USER_ID"
+}
+
+### Get all tasks
+GET {{baseUrl}}/tasks
+Authorization: Bearer {{authToken}}
+
+### Get all tasks with filters
+GET {{baseUrl}}/tasks?status=TODO&priority=HIGH
+Authorization: Bearer {{authToken}}
+
+### Get task by ID
+GET {{baseUrl}}/tasks/YOUR_TASK_ID
+Authorization: Bearer {{authToken}}
+
+### Update task
+PUT {{baseUrl}}/tasks/YOUR_TASK_ID
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "status": "IN_PROGRESS",
+    "priority": "MEDIUM",
+    "description": "Updated description for the task"
+}
+
+### Delete task
+DELETE {{baseUrl}}/tasks/YOUR_TASK_ID
+Authorization: Bearer {{authToken}}

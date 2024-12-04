@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Core User Management
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          Role      @default(USER)
+  
+  // Relations
+  projects      Project[]
+  assignedTasks Task[]    @relation("AssignedTasks")
+  createdTasks  Task[]    @relation("CreatedTasks")
+  teams         TeamMember[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
+  MANAGER
+}
+
+// Base model for timestamps
+model BaseModel {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("base_model")
+}
+
+// Audit Trail for tracking changes
+model AuditLog {
+  id           String   @id @default(uuid())
+  userId       String
+  action       String
+  entityType   String
+  entityId     String
+  oldValue     Json?
+  newValue     Json?
+  createdAt    DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+// Project Management Models
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  status      ProjectStatus @default(PLANNING)
+  priority    Priority     @default(MEDIUM)
+  
+  // Relations
+  tasks       Task[]
+  team        Team?        @relation(fields: [teamId], references: [id])
+  teamId      String?
+  createdBy   User        @relation(fields: [userId], references: [id])
+  userId      String
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("projects")
+}
+
+model Task {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  startDate   DateTime
+  dueDate     DateTime
+  status      TaskStatus @default(TODO)
+  priority    Priority   @default(MEDIUM)
+  
+  // Relations
+  project     Project    @relation(fields: [projectId], references: [id])
+  projectId   String
+  assignedTo  User?      @relation("AssignedTasks", fields: [assignedToId], references: [id])
+  assignedToId String?
+  createdBy   User       @relation("CreatedTasks", fields: [createdById], references: [id])
+  createdById String
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("tasks")
+}
+
+model Team {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  
+  // Relations
+  members     TeamMember[]
+  projects    Project[]
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("teams")
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  role      TeamRole @default(MEMBER)
+  
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  teamId    String
+  
+  // Timestamps
+  joinedAt  DateTime @default(now())
+  
+  @@unique([userId, teamId])
+  @@map("team_members")
+}
+
+// Enums
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  IN_REVIEW
+  COMPLETED
+  BLOCKED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TeamRole {
+  LEADER
+  MEMBER
+  OBSERVER
+}
+
+// We'll add models here based on your specifications for each PMS module 

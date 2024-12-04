@@ -1,107 +1,62 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  PersonOutlined,
-  NotificationsOutlined,
-  SecurityOutlined,
-  StorageOutlined,
-  PaletteOutlined,
-  LanguageOutlined,
-  ArrowBackOutlined
-} from '@mui/icons-material';
-import { Button } from '@/common/components/ui/button';
-import { cn } from '@/common/lib/utils';
+import { useAppSelector } from '../../hooks/redux';
+import { AppLayout } from '../../components/layout/AppLayout';
 
-interface SettingsSectionProps {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  onClick?: () => void;
-}
-
-const SettingsSection: React.FC<SettingsSectionProps> = ({
-  icon: Icon,
-  title,
-  description,
-  onClick
-}) => (
-  <button
-    onClick={onClick}
-    className={cn(
-      "w-full p-4 flex items-start gap-4 rounded-lg",
-      "text-left transition-colors duration-200",
-      "hover:bg-[#ff8080]/5 focus:outline-none focus:ring-2 focus:ring-[#ff8080]/20"
-    )}
-  >
-    <div className="p-2 rounded-full bg-[#ff8080]/10">
-      <Icon sx={{ fontSize: 24 }} className="text-[#ff8080]" />
-    </div>
-    <div>
-      <h3 className="text-lg font-medium text-gray-900">{title}</h3>
-      <p className="text-sm text-gray-600">{description}</p>
-    </div>
-  </button>
-);
-
-export const SettingsPage = () => {
-  const navigate = useNavigate();
+export const SettingsPage: React.FC = () => {
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="py-6">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => navigate(-1)}
-                className="hover:bg-[#ff8080]/5"
-              >
-                <ArrowBackOutlined sx={{ fontSize: 20 }} className="text-gray-600" />
-              </Button>
-              <h1 className="text-2xl font-semibold text-gray-900">Settings</h1>
+    <AppLayout>
+      <div className="p-6">
+        <h1 className="text-2xl font-semibold mb-6">Settings</h1>
+        
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="space-y-6">
+            {/* User Profile Section */}
+            <div>
+              <h2 className="text-lg font-medium mb-4">User Profile</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Name</label>
+                  <div className="mt-1 text-sm text-gray-900">{user?.name}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <div className="mt-1 text-sm text-gray-900">{user?.email}</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Role</label>
+                  <div className="mt-1 text-sm text-gray-900">{user?.role}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Application Settings */}
+            <div>
+              <h2 className="text-lg font-medium mb-4">Application Settings</h2>
+              <div className="space-y-4">
+                {/* Add your application settings here */}
+                <p className="text-sm text-gray-500">Application settings will be implemented here.</p>
+              </div>
+            </div>
+
+            {/* System Information */}
+            <div>
+              <h2 className="text-lg font-medium mb-4">System Information</h2>
+              <div className="space-y-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Version</label>
+                  <div className="mt-1 text-sm text-gray-900">1.0.0</div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Last Updated</label>
+                  <div className="mt-1 text-sm text-gray-900">{new Date().toLocaleDateString()}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Content */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid gap-6">
-          <SettingsSection
-            icon={PersonOutlined}
-            title="Profile Settings"
-            description="Manage your account details and preferences"
-          />
-          <SettingsSection
-            icon={NotificationsOutlined}
-            title="Notifications"
-            description="Configure how you receive alerts and notifications"
-          />
-          <SettingsSection
-            icon={SecurityOutlined}
-            title="Security"
-            description="Password settings and security preferences"
-          />
-          <SettingsSection
-            icon={StorageOutlined}
-            title="Data Management"
-            description="Manage your data, backups, and storage preferences"
-          />
-          <SettingsSection
-            icon={PaletteOutlined}
-            title="Appearance"
-            description="Customize the look and feel of your application"
-          />
-          <SettingsSection
-            icon={LanguageOutlined}
-            title="Language & Region"
-            description="Set your preferred language and regional settings"
-          />
-        </div>
-      </div>
-    </div>
+    </AppLayout>
   );
 }; 

@@ -1,0 +1,42 @@
+### Register a new admin user
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "admin@bolt.com",
+  "password": "Admin@123",
+  "role": "ADMIN"
+}
+
+### Register a regular user
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "user@bolt.com",
+  "password": "User@123"
+}
+
+### Login as admin
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@bolt.com",
+  "password": "Admin@123"
+}
+
+### Login as user
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@bolt.com",
+  "password": "User@123"
+}
+
+### Get profile (requires auth token)
+GET http://localhost:5000/api/auth/profile
+Authorization: Bearer YOUR_TOKEN_HERE 

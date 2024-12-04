@@ -11,6 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu';
+import { useAppDispatch } from '../hooks/redux';
+import { logout } from '../store/slices/authSlice';
 
 interface HeaderProps {
   className?: string;
@@ -18,10 +20,14 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ className }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    // For now, just navigate to home
-    navigate('/');
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        navigate('/login');
+      });
   };
 
   return (
@@ -102,3 +108,5 @@ export const Header: React.FC<HeaderProps> = ({ className }) => {
     </header>
   );
 };
+
+export default Header;

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from 'lucide-react';
-import { useAppDispatch } from '../hooks/redux';
-import { loginSuccess, loginFailure } from '../store/slices/authSlice';
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Checkbox } from "../components/ui/checkbox";
-import { Label } from "../components/ui/label";
+import { useAppDispatch } from '../../common/hooks/redux';
+import { login } from '../../common/store/slices/authSlice';
+import { Button } from "../../common/components/ui/button";
+import { Input } from "../../common/components/ui/input";
+import { Checkbox } from "../../common/components/ui/checkbox";
+import { Label } from "../../common/components/ui/label";
 import { toast } from "sonner";
 
 export default function LoginPage() {
@@ -15,21 +15,30 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
+    email: localStorage.getItem('savedEmail') || '',
     password: '',
-    rememberMe: false
+    rememberMe: Boolean(localStorage.getItem('savedEmail'))
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (formData.username === 'ananthamkmu' && formData.password === 'yaglobdev') {
-      dispatch(loginSuccess({ username: formData.username, role: 'admin' }));
+    try {
+      await dispatch(login({ 
+        email: formData.email, 
+        password: formData.password 
+      })).unwrap();
+
+      if (formData.rememberMe) {
+        localStorage.setItem('savedEmail', formData.email);
+      } else {
+        localStorage.removeItem('savedEmail');
+      }
+
       toast.success('Login successful');
-      navigate('/dashboard');
-    } else {
-      dispatch(loginFailure('Invalid username or password'));
-      toast.error('Invalid username or password');
+      navigate('/');
+    } catch (error: any) {
+      toast.error(error.message || 'Login failed');
     }
   };
 
@@ -112,13 +121,14 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="username">User Name</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
-              id="username"
-              name="username"
-              value={formData.username}
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
               onChange={handleInputChange}
-              placeholder="Enter your username"
+              placeholder="Enter your email"
               className="border-rose-400 focus:ring-rose-400"
             />
           </div>
@@ -150,8 +160,8 @@ export default function LoginPage() {
               id="rememberMe"
               name="rememberMe"
               checked={formData.rememberMe}
-              onCheckedChange={(checked) => 
-                setFormData(prev => ({ ...prev, rememberMe: checked as boolean }))
+              onCheckedChange={(checked: boolean) => 
+                setFormData(prev => ({ ...prev, rememberMe: checked }))
               }
               className="border-rose-400 data-[state=checked]:bg-rose-400"
             />
