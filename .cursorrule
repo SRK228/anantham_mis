@@ -1,0 +1,112 @@
+# Cursor Development Rules
+
+1. File Creation and Management
+- ALWAYS check the existing codebase before creating new files
+- Create new files ONLY when absolutely necessary
+- Avoid duplicate file creation
+- If a similar file exists, modify the existing file instead of creating a new one
+- Use proper file organization structure as per the existing codebase
+- NEVER create unnecessary files or modify working code without clear requirements
+- Maintain existing application stability at all times
+
+2. Code Organization
+- Follow the existing project structure
+- Keep related functionality together
+- Use consistent naming conventions
+- Maintain clear separation of concerns
+- Never mix route-based and state-based navigation patterns
+- Keep navigation logic consistent across the application
+- DO NOT introduce new patterns without proper justification
+
+3. Component Development
+- Reuse existing components when possible
+- Extend existing components rather than creating duplicates
+- Follow the established component patterns in the project
+- Always check component props interface before making changes
+- Ensure type safety by properly defining and using TypeScript interfaces
+- When enhancing components, maintain backward compatibility
+- Don't modify working features unless absolutely necessary
+- NEVER add experimental or untested features to production code
+
+4. Error Handling
+- Fix errors in existing files before creating new ones
+- Address root causes rather than creating workarounds
+- Maintain consistent error handling patterns
+- Fix TypeScript linting errors immediately
+- Ensure all props are properly typed and documented
+
+5. Navigation and Routing
+- Use consistent routing patterns throughout the application
+- Prefer URL-based navigation over state-based navigation
+- Keep route structure clean and predictable
+- Ensure proper nesting of routes
+- Maintain clear parent-child relationship in route components
+
+6. State Management
+- Follow existing state management patterns
+- Don't mix different state management approaches
+- Keep state updates predictable and traceable
+- Use appropriate scope for state (local vs global)
+- NEVER modify existing state patterns without team approval
+
+7. Documentation
+- Document significant changes
+- Keep documentation up-to-date
+- Document complex logic and business rules
+- Add comments for non-obvious code behavior
+- Include type definitions for all interfaces and props
+- Document reasons for any major code modifications
+
+8. Testing and Quality
+- Test changes thoroughly before committing
+- Ensure backward compatibility
+- Check for regressions in related features
+- Validate all edge cases
+- Test across different routes and states
+- NEVER skip testing on modified code
+
+9. Version Requirements
+- Node.js: v16.x or higher
+- PostgreSQL: v14.x or higher
+- Prisma: v3.15.2 (DO NOT UPGRADE without testing)
+- @prisma/client: v3.15.2 (must match Prisma version)
+- TypeScript: v5.x
+- React: v18.x
+- Vite: v4.x
+
+10. Database Setup Rules
+- Always use migrations for schema changes
+- Test migrations locally before deployment
+- Backup database before major changes
+- Use seed files for initial data setup
+- Follow naming conventions for database objects
+- Document all database changes
+- NEVER modify production database schema without approval
+
+11. Environment Setup
+- Use .env files for environment variables
+- Never commit sensitive credentials
+- Maintain separate environments (dev/prod)
+- Document all required environment variables
+- Use strong password policies
+
+12. Code Stability and Modifications
+- ALWAYS review existing codebase thoroughly before making changes
+- DO NOT modify working features without clear requirements
+- NEVER add random or experimental code to production
+- Maintain existing functionality while adding new features
+- Test thoroughly before and after any modifications
+- Document all changes and their purposes
+- Keep the application stable and reliable at all times
+- Get approval for any significant architectural changes
+- Follow the principle: "If it works, don't fix it unless required"
+- Prioritize application stability over experimental features
+
+Rule: Before creating new files, the assistant should:
+1. Check the existing codebase structure
+2. Identify similar existing components or utilities
+3. Modify existing files when possible instead of creating new ones
+4. Only create new files when absolutely necessary
+5. Follow the existing project's file naming and organization patterns
+6. Ensure changes don't break existing functionality
+7. Test thoroughly before implementing any changes
